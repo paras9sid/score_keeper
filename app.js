@@ -22,17 +22,20 @@ const resetButton = document.querySelector("#reset");
 const winningScoreSelect = document.querySelector("#playTo");
 
 //winning score points limit
-// let winningScore = 3;
+let winningScore = 3;
+// let winningScore = parseInt(winningScoreSelect.value);
 
 //boolean call for game over
 let isGameOver = false;
 
 //generic function
 const updateScores = (player, opponent) => {
+  // function updateScores(player, opponent) {
   //game over condition check
   if (!isGameOver) {
     player.score += 1;
-    if (player.score == winningScoreSelect.value) {
+    // if (player.score == winningScoreSelect.value) {
+    if (player.score === winningScore) {
       isGameOver = true;
       //adding classes for number to change color for winner and loser
       player.display.classList.add("has-text-success");
@@ -44,25 +47,27 @@ const updateScores = (player, opponent) => {
   }
 };
 
-p1.button.addEventListener("click", (e) => {
+p1.button.addEventListener("click", () => {
   updateScores(p1, p2);
 });
 
-p2.button.addEventListener("click", (e) => {
+p2.button.addEventListener("click", () => {
   updateScores(p2, p1);
 });
 
 // //winning score limit functionality
-// winningScoreSelect.addEventListener("change", (e) => {
-//   //   alert("Change"); // check working
-//   //   alert(this.value); // undefined printing in alert - t check
+winningScoreSelect.addEventListener("change", function () {
+  // alert("Change"); // check working
+  //this - will work with normal function decalaration - not with arrow function
+  // alert(this.value); // undefined printing in alert - t check
 
-//   winningScore = parseInt(this.value);
-//   reset();
-// });
+  winningScore = parseInt(this.value);
+  reset();
+});
 
 //reset funtion -
 const reset = (e) => {
+  // function reset() {
   //values to bring back down to initial so to start game again.
   isGameOver = false;
 
