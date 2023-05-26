@@ -1,12 +1,19 @@
 //main
 
-//button assigned
-const p1Button = document.querySelector("#p1Button");
-const p2Button = document.querySelector("#p2Button");
+//refractoring code - combining common into one function
 
-//score display assigned
-const p1Display = document.querySelector("#p1Display");
-const p2Display = document.querySelector("#p2Display");
+//making p1 and p2 an object
+const p1 = {
+  score: 0,
+  button: document.querySelector("#p1Button"),
+  display: document.querySelector("#p1Display"),
+};
+
+const p2 = {
+  score: 0,
+  button: document.querySelector("#p2Button"),
+  display: document.querySelector("#p2Display"),
+};
 
 //reset button
 const resetButton = document.querySelector("#reset");
@@ -14,50 +21,39 @@ const resetButton = document.querySelector("#reset");
 //select winnig score limit options
 const winningScoreSelect = document.querySelector("#playTo");
 
-//default score of players
-let p1Score = 0;
-let p2Score = 0;
-
 //winning score points limit
 let winningScore = 3;
 
 //boolean call for game over
 let isGameOver = false;
 
-p1Button.addEventListener("click", (e) => {
+//generic function
+const updateScores = (player, opponent) => {
   //game over condition check
   if (!isGameOver) {
-    p1Score += 1;
-    if (p1Score === winningScore) {
+    player.score += 1;
+    if (player.score === winningScore) {
       isGameOver = true;
       //adding classes for number to change color for winner and loser
-      p1Display.classList.add("has-text-success");
-      p2Display.classList.add("has-text-danger");
-      p1Button.disabled = true;
-      p2Button.disabled = true;
+      player.display.classList.add("has-text-success");
+      opponent.display.classList.add("has-text-danger");
+      player.button.disabled = true;
+      opponent.button.disabled = true;
     }
-    p1Display.textContent = p1Score;
+    player.display.textContent = player.score;
   }
+};
+
+p1.button.addEventListener("click", (e) => {
+  updateScores(p1, p2);
 });
 
-p2Button.addEventListener("click", (e) => {
-  //   game over condition check
-  if (!isGameOver) {
-    p2Score += 1;
-    if (p2Score === winningScore) {
-      isGameOver = true;
-      //adding classes for number to change color for winner and loser
-      p2Display.classList.add("has-text-success");
-      p1Display.classList.add("has-text-danger");
-      p1Button.disabled = true;
-      p2Button.disabled = true;
-    }
-    p2Display.textContent = p2Score;
-  }
+p2.button.addEventListener("click", (e) => {
+  updateScores(p2, p1);
 });
 
 //winning score limit functionality
-winningScoreSelect.addEventListener("change", () => {
+winningScoreSelect.addEventListener("change", (e) => {
   //   alert("Change"); // check working
   //   alert(this.value); // undefined printing in alert - t check
 
@@ -69,18 +65,14 @@ winningScoreSelect.addEventListener("change", () => {
 const reset = (e) => {
   //values to bring back down to initial so to start game again.
   isGameOver = false;
-  p1Score = 0;
-  p2Score = 0;
 
-  //display updation to initial values again upon clicking button
-  p1Display.textContent = 0;
-  p2Display.textContent = 0;
-
-  //ADDING WINNER & LOSER classes
-  p1Display.classList.remove("has-text-success", "has-text-danger");
-  p2Display.classList.remove("has-text-success", "has-text-danger");
-  p1Button.disabled = false;
-  p2Button.disabled = false;
+  //looping over p1 and p2 fields
+  for (let p of [p1, p2]) {
+    p.score = 0;
+    p.display.textContent = 0;
+    p.display.classList.remove("has-text-success", "has-text-danger");
+    p.button.disabled = false;
+  }
 };
 
 //after reset funtion only above written it will work
