@@ -22,7 +22,7 @@ const resetButton = document.querySelector("#reset");
 const winningScoreSelect = document.querySelector("#playTo");
 
 //winning score points limit
-let winningScore = 3;
+// let winningScore = 3;
 
 //boolean call for game over
 let isGameOver = false;
@@ -32,7 +32,7 @@ const updateScores = (player, opponent) => {
   //game over condition check
   if (!isGameOver) {
     player.score += 1;
-    if (player.score === winningScore) {
+    if (player.score == winningScoreSelect.value) {
       isGameOver = true;
       //adding classes for number to change color for winner and loser
       player.display.classList.add("has-text-success");
@@ -52,14 +52,14 @@ p2.button.addEventListener("click", (e) => {
   updateScores(p2, p1);
 });
 
-//winning score limit functionality
-winningScoreSelect.addEventListener("change", (e) => {
-  //   alert("Change"); // check working
-  //   alert(this.value); // undefined printing in alert - t check
+// //winning score limit functionality
+// winningScoreSelect.addEventListener("change", (e) => {
+//   //   alert("Change"); // check working
+//   //   alert(this.value); // undefined printing in alert - t check
 
-  winningScore = parseInt(this.value);
-  reset();
-});
+//   winningScore = parseInt(this.value);
+//   reset();
+// });
 
 //reset funtion -
 const reset = (e) => {
